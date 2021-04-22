@@ -1,0 +1,101 @@
+{% extends "bbase.html" %}
+
+{% block content %}
+<h1>Регистрация</h1>
+<form action="" method="post" >
+    {{ form.hidden_tag() }}
+    <p>
+        {{ form.email.label }}<br>
+        {{ form.email(class="form-control", type="email") }}<br>
+        {% for error in form.email.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.password.label }}<br>
+        {{ form.password(class="form-control", type="password") }}<br>
+        {% for error in form.password.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.password_again.label }}<br>
+        {{ form.password_again(class="form-control", type="password") }}<br>
+        {% for error in form.password_again.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    </p>
+    <p>
+        {{ form.name.label }}<br>
+        {{ form.name(class="form-control") }}<br>
+        {% for error in form.name.errors %}
+    <p class="alert alert-danger" role="alert">
+        {{ error }}
+    </p>
+    {% endfor %}
+    </p>
+
+    <div class="form-row align-items-center">
+        <div class="col-auto my-1">
+            <label class="mr-sm-2" for="Day">День</label>
+            <select class="custom-select mr-sm-2" id="Day" name="day">
+                <option selected>День</option>
+                {% for i in days%}
+                <option value="{{i}}">{{i}}</option>
+                {% endfor %}
+
+            </select>
+        </div>
+    <div class="form-row align-items-center">
+    <div class="col-auto my-1">
+        <label class="mr-sm-2" for="Month">Месяц</label>
+        <select class="custom-select mr-sm-2" id="Month" name="month">
+            <option selected>Месяц</option>
+            <option value="1">Январь</option>
+            <option value="2">Февраль</option>
+            <option value="3">Март</option>
+            <option value="4">Апрель</option>
+            <option value="5">Май</option>
+            <option value="6">Июнь</option>
+            <option value="7">Июль</option>
+            <option value="8">Август</option>
+            <option value="9">Сентябрь</option>
+            <option value="10">Октябрь</option>
+            <option value="11">Ноябрь</option>
+            <option value="12">Декабрь</option>
+        </select>
+    </div>
+
+        <div class="form-row align-items-center">
+            <div class="col-auto my-1">
+                <label class="mr-sm-2" for="Year">Год</label>
+                <select class="custom-select mr-sm-2" id="Year" name="year">
+                    <option selected>Год</option>
+                    {% for i in years%}
+                    <option value="{{i}}">{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            </div>
+            <p>
+                {{ form.about.label }}<br>
+                {{ form.about(class="form-control") }}<br>
+                {% for error in form.about.errors %}
+            <p class="alert alert-danger" role="alert">
+                {{ error }}
+            </p>
+            {% endfor %}
+            </p>
+
+
+            </div>
+            <p>{{ form.submit(type="submit", class="btn btn-primary") }}</p>
+            {{message}}
+</form>
+{% endblock %}
