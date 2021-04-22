@@ -86,7 +86,7 @@ def users():
         z = u.birth_day_date
         zz.append(f"{check_z(z)}, Ваша совместимость -  {sov(check_z(z), user.birth_day_date)}%")
 
-    return render_template("users.html", title="Лента", users=users, zz=zz)
+    return render_template("users.html", title="Лента", users=users, zz=zz, current_user=current_user)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -127,9 +127,11 @@ def user(id):
     db_sess = db_session.create_session()
     z_user = db_sess.query(User).filter(User.id == id).first()
     zz = []
+
     user = db_sess.query(User).filter(User.id == current_user.get_id()).first()
     zz.append(f"{check_z(z_user.birth_day_date)}, Ваша совместимость -  {sov(check_z(z_user.birth_day_date), user.birth_day_date)}%")
-    return render_template("us_detail.html", us=user, zz=zz, title=user.name)
+    print(user.name, z_user.name, current_user.get_id(), z_user.id)
+    return render_template("us_detail.html", us=z_user, zz=zz, title=user.name, current_user_id=current_user.get_id())
 
 
 @app.route("/message")
@@ -147,9 +149,9 @@ def logout():
 
 def main():
     db_session.global_init("db/blogs.db")
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host='0.0.0.0', port=port)
-
+    # port = int(os.environ.get("PORT", 5000))
+    # app.run(host='0.0.0.0', port=port)
+    app.run()
 
 
 if __name__ == '__main__':
