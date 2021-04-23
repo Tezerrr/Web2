@@ -35,7 +35,6 @@ def load_user(user_id):
 
 @login_manager.user_loader
 def load_user(user_id):
-    print("load_user")
     db_sess = db_session.create_session()
     return UserLogin().fromDB(user_id, db_sess)
 

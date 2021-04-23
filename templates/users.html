@@ -92,8 +92,8 @@
 
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold" align="left"><a
                             href="/users/{{us.id}}">Подробнее</a></h3>
-                    {% if us.id == current_user.get_id%}
-                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Вы - саманеотразимость, ваша с вами совместимость
+                    {% if us.id == current_user_get_id%}
+                    <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">Вы - сама неотразимость, ваша с вами совместимость
                         - 1000%! </h3>
                     {% else %}
                     <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{zz[us.id - 1]}}</h3>

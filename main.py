@@ -1,25 +1,13 @@
-import datetime
-import os
-
-import sqlalchemy
-from flask import Flask, render_template, redirect, request, flash, url_for
+from flask import render_template, redirect, request, url_for
 from data import db_session
-from data.news import News
-from werkzeug.security import generate_password_hash, check_password_hash
-import random
 from sovm import check_z, sov
 from forms.login import LoginForm
-import requests
-from FDataBase import FDataBase
 from static.img.saved import save
 from data.users import User
 from forms.user import RegisterForm
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import login_user, login_required, logout_user, current_user
 from keu import data_check
-from data.Article import Article
 from Settings import *
-from forms.load_user import load_user
 
 menu = ["Главная страница", "Сообщения", "Авторизация"]
 
@@ -27,8 +15,7 @@ menu = ["Главная страница", "Сообщения", "Авториз
 @app.route("/")
 def index():
     db_sess = db_session.create_session()
-    news = db_sess.query(News).filter(News.is_private != True)
-    return render_template("index.html", news=news, menu=menu)
+    return render_template("index.html", menu=menu)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -75,6 +62,7 @@ def profile():
     print(current_user.is_authenticated())
     return render_template("profile.html", u=user, current_user=current_user)
 
+
 @app.route('/users')
 @login_required
 def users():
@@ -85,8 +73,8 @@ def users():
     for u in users:
         z = u.birth_day_date
         zz.append(f"{check_z(z)}, Ваша совместимость -  {sov(check_z(z), user.birth_day_date)}%")
-
-    return render_template("users.html", title="Лента", users=users, zz=zz, current_user=current_user)
+    return render_template("users.html", title="Лента", users=users, zz=zz,
+                           current_user_get_id=int(current_user.get_id()))
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -129,9 +117,11 @@ def user(id):
     zz = []
 
     user = db_sess.query(User).filter(User.id == current_user.get_id()).first()
-    zz.append(f"{check_z(z_user.birth_day_date)}, Ваша совместимость -  {sov(check_z(z_user.birth_day_date), user.birth_day_date)}%")
-    print(user.name, z_user.name, current_user.get_id(), z_user.id)
-    return render_template("us_detail.html", us=z_user, zz=zz, title=user.name, current_user_id=current_user.get_id())
+    zz.append(
+        f"{check_z(z_user.birth_day_date)}, Ваша совместимость -  {sov(check_z(z_user.birth_day_date), user.birth_day_date)}%")
+
+    return render_template("us_detail.html", us=z_user, zz=zz, title=user.name,
+                           current_user_id=int(current_user.get_id()))
 
 
 @app.route("/message")
@@ -151,6 +141,7 @@ def main():
     db_session.global_init("db/blogs.db")
     # port = int(os.environ.get("PORT", 5000))
     # app.run(host='0.0.0.0', port=port)
+    # ngrok http 5000
     app.run()
 
 
